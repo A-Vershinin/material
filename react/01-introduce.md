@@ -37,7 +37,7 @@ ReactDOM.render(<HelloMessage name="Merrick" />, document.body);
 ```javascript
 ReactDOM.render(/* component */, /* куда его вставлять, DOM node  */);
 ```
-Метод ReactDOM.render() принимает 2 аргумента 
+Метод `ReactDOM.render();` принимает 2 аргумента 
 
 - наш компонент
 - то куда его нужно вставить в разметке html
