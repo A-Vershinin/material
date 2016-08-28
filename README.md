@@ -17,7 +17,7 @@
 
 ## Python
 
-[![Python](https://svn.python.org/www/branches/rest2web/beta.python.org/resources/design/logo/python-logo-master-flat.png)](#)
+[![Python](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/1024px-Python_logo_and_wordmark.svg.png)](#)
 - Типы данных:
   - [Числа](https://github.com/MerrickGit/material/blob/master/python/types/number.md)
   - [Строки](https://github.com/MerrickGit/material/blob/master/python/types/string.md)
