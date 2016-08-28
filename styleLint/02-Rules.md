@@ -224,3 +224,62 @@ a { transform: translate(1, 1) scale(3); } -> always
 a { transform: translate(1, 1)scale(3); } -> never
 ```
 ---
+
+### Правила для Number
+
+* `number-leading-zero : "always" || "never"` - Указание нуля в десятичных цифрах
+```scss
+a { line-height: 0.5; } -> always
+a { line-height: .5; } -> never
+```
+---
+
+* `number-max-precision : int : 1` - Кол-во цифр после точки
+```scss
+.foo { top: 3.24px; } -> 2
+```
+---
+
+* `number-no-trailing-zeros : "true"` - Запрещает использование ненужных нулей
+```scss
+a { top: 1.0px } -> Error
+a { top: 1px } -> true
+```
+---
+
+### Правила для string
+
+* `string-no-newline : "true"` - Запрещает использование перехода на новую строку
+```scss
+a {
+  content: "first
+    second";     
+} -> Error
+a { content: "first\Asecond" } -> true
+```
+---
+
+* `string-quotes : "single" || "double"` - Правило задает указание ковычек при использовании строк
+```scss
+a { content: 'x'; } -> single
+a { content: "x"; } -> double
+```
+---
+
+### Правила для length
+
+* `length-zero-no-unit : "true"` - Запрещает использование единиц измерения при указании 0
+```scss
+a { top: 0px } -> Error
+a { top: 0 } -> true
+```
+---
+
+### Правила для Time
+
+* `time-no-imperceptible : "true"` - Запрещает использование времени меньше 100ms
+```scss
+.foo { animation: 80ms; } -> Error
+.foo { animation: 8s; } -> true
+```
+---
