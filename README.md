@@ -1,4 +1,4 @@
-<h1 style="text-align: center">Репозиторий с полезными материалами</h1>
+#Репозиторий с полезными материалами
 
 ## Jade
 
@@ -14,3 +14,11 @@
 
 [![StyleLint](http://stylelint.io/_/web_modules/LayoutContainer/opengraph.png)](#)
 - [Установка]()
+
+## Python
+
+[![Python](https://svn.python.org/www/branches/rest2web/beta.python.org/resources/design/logo/python-logo-master-flat.png)](#)
+- Типы данных:
+  - [Числа](https://github.com/MerrickGit/material/blob/master/python/types/number.md)
+  - [Строки](https://github.com/MerrickGit/material/blob/master/python/types/string.md)
+  - [Файлы](https://github.com/MerrickGit/material/blob/master/python/types/files.md)
