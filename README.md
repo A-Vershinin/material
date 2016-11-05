@@ -8,12 +8,14 @@
 ## React
 
 [![ReactJs](http://webtoks.ru/wp-content/uploads/2015/02/reactjs-logo-thumb.png)](#)
-- [Вступление]()
+- [Вступление](https://github.com/MerrickGit/material/blob/master/react/01-introduce.md)
+- [Жизненный цикл компонентов](https://github.com/MerrickGit/material/blob/master/react/02-life-cycle.md)
 
 ## Style Lint
 
 [![StyleLint](http://stylelint.io/_/web_modules/LayoutContainer/opengraph.png)](#)
-- [Установка]()
+- [Установка](https://github.com/MerrickGit/material/blob/master/styleLint/01-introduce.md)
+- [Правила](https://github.com/MerrickGit/material/blob/master/styleLint/02-Rules.md)
 
 ## Python
 
@@ -21,4 +23,10 @@
 - Типы данных:
   - [Числа](https://github.com/MerrickGit/material/blob/master/python/types/number.md)
   - [Строки](https://github.com/MerrickGit/material/blob/master/python/types/string.md)
+  - [Списки](https://github.com/MerrickGit/material/blob/master/python/types/list.md)
+  - [Словари](https://github.com/MerrickGit/material/blob/master/python/types/dist.md)
   - [Файлы](https://github.com/MerrickGit/material/blob/master/python/types/files.md)
+-  Инструкции управления:
+  - [Условные операторы](https://github.com/MerrickGit/material/blob/master/python/instruction/if.md)
+  - [Функции](https://github.com/MerrickGit/material/blob/master/python/instruction/functions.md)
+  - [Лямбда выражения](https://github.com/MerrickGit/material/blob/master/python/instruction/lambda.md)
