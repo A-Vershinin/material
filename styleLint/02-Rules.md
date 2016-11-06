@@ -537,3 +537,280 @@ a { -webkit-animation: my-animation 2s; } -> True
   }
 } -> True
 ```
+
+### Правила для разных деклараций свойств
+
+* `declaration-bang-space-after : "always" || "never"` - Пробел перед знаком ! в декларации `!important`
+```scss
+a { color: pink ! important; } -> always
+a { color: pink !important; } -> never
+```
+
+* `declaration-bang-space-before : "always" || "never" ` - Пробел после знаком ! в декларации `!important`
+```scss
+a { color: pink !important; } -> always
+a { color: pink!important; } -> never
+```
+
+* `declaration-colon-newline-after : "always" || "always-multi-line" ` - переход на новую строку в свойствах где значений может быть несколько
+```scss
+a {
+  color:
+    pink;
+} -> always
+
+a {
+  box-shadow:
+    0 0 0 1px #5b9dd9,
+    0 0 2px 1px rgba(30, 140, 190, 0.8);
+} -> always-multi-line
+
+a {
+  color: pink;
+} -> always-multi-line
+```
+
+* `declaration-colon-space-after : "always" || "never" || "always-single-line"` - пробел после символа ':' в объявлении свойства
+```scss
+a { color: pink } -> always
+a { color:pink } -> never
+a {
+  box-shadow:
+    0 0 0 1px #5b9dd9,
+    0 0 2px 1px rgba(30, 140, 190, 0.8);
+} -> always-single-line
+```
+
+* `declaration-colon-space-before : "always" || "never"` - пробел до символа ':' в объявлении свойства
+```scss
+a { color :pink } -> always
+a { color:pink } -> never
+```
+
+* `declaration-empty-line-before : "always" || "never"` - использование пустой строки перед объявлением свойств
+```scss
+a {
+  --foo: pink;
+
+  top: 5px;
+} -> always
+
+a {
+  --foo: pink;
+  bottom: 15px;
+} -> never
+```
+
+* `declaration-no-important : true` - Запрещает использовать `!important`
+```scss
+a { color: pink !important; } -> Error
+```
+
+* `declaration-property-unit-blacklist : { "unprefixed-property-name": ["array", "of", "units"] }` - Запрещает использовать указанные ед. измерения для указанных свойств
+```scss
+/*
+declaration-property-unit-blacklist: {
+  "font-size": ["em", "px"],
+  "/^animation/": ["s"]
+}
+*/
+
+a { font-size: 1em; } -> Error
+a { font-size: 1.2rem; } -> True
+```
+
+* `declaration-property-unit-whitelist : { "unprefixed-property-name": ["array", "of", "units"] }` - Разрешает использовать указанные ед. измерения для указанных свойств
+```scss
+/*
+declaration-property-unit-whitelist: {
+  "font-size": ["em", "px"],
+  "/^animation/": ["s"]
+}
+*/
+
+a { font-size: 1em; } -> True
+a { font-size: 1.2rem; } -> Error
+```
+
+* `declaration-property-value-blacklist : { "unprefixed-property-name": ["array", "of", "values"], "unprefixed-property-name": ["/regex/", "non-regex"] }` - Запрещает использовать определенные значения для свойств
+```scss
+/*
+declaration-property-value-blacklist: {
+  "transform": ["/scale3d/", "/rotate3d/", "/translate3d/"],
+  "position": ["fixed"],
+  "color": ["/^green/"]
+  "/^animation/": ["/ease/"]
+}
+*/
+
+a { position: fixed; } -> Error
+a { position: relative; } -> True
+a { transform: scale3d(1, 2, 3); } -> Error
+```
+
+* `declaration-property-value-whitelist : { "unprefixed-property-name": ["array", "of", "values"], "unprefixed-property-name": ["/regex/", "non-regex"] }` - Запрещает использовать определенные значения для свойств
+```scss
+/*
+declaration-property-value-whitelist: {
+  "transform": ["/scale3d/", "/rotate3d/", "/translate3d/"],
+  "position": ["fixed"],
+  "color": ["/^green/"]
+  "/^animation/": ["/ease/"]
+}
+*/
+
+a { position: fixed; } -> True
+a { position: relative; } -> Error
+a { transform: scale3d(1, 2, 3); } -> True
+```
+
+### Правила для блоков объявлений
+
+* `declaration-block-no-duplicate-properties : true` - запрещает использовать одинаковые свойства несколько раз в блоке
+```scss
+a { color: pink; color: orange; } -> Error
+a { color: pink; } -> True
+```
+
+* `declaration-block-no-ignored-properties : true` - запрещает использовать противоречащие друг другу свойства. Их список:
+display: inline использовать с width, height, margin, margin-top, margin-bottom, overflow (and all variants).
+display: list-item использовать с vertical-align.
+display: block использовать с vertical-align.
+display: flex использовать с vertical-align.
+display: table использовать с vertical-align.
+display: table-* использовать с margin (and all variants).
+display: table-* (except table-cell) использовать с vertical-align.
+display: table-(row|row-group) использовать с width, min-width or max-width.
+display: table-(column|column-group) использовать с height, min-height or max-height.
+float: left and float: right использовать с vertical-align.
+position: static использовать с top, right, bottom, or left.
+position: absolute использовать с float, clear or vertical-align.
+position: fixed использовать с float, clear or vertical-align.
+```scss
+a { display: inline: margin-left: 10px; } -> True
+a { float: left; vertical-align: baseline; } -> Error
+```
+
+* `declaration-block-no-redundant-longhand-properties : true` -  Запрещает расписывать свойства, которые можно сократить. Их список:
+padding
+margin
+background
+font
+border
+border-top
+border-bottom
+border-left
+border-right
+border-width
+border-style
+border-color
+border-radius
+transition
+```scss
+a {
+  margin-top: 1px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+  margin-left: 4px;
+} -> Error
+
+a {
+  margin: 1px 2px 3px 4px;
+} -> True
+```
+
+* `declaration-block-no-shorthand-property-overrides : true` - Разрешает создавать перекрывающие свойства
+```scss
+a {
+  padding-left: 10px;
+  padding: 20px;
+} -> Error
+a { padding: 10px; padding-left: 20px; } -> True
+```
+
+* `declaration-block-properties-order : "alphabetical" || ["array", "of", "unprefixed", "property", "names", "or", "group", "objects"]` - устанавливает порядок свойств
+```scss
+a {
+  color: pink;
+  top: 0;
+} -> alphabetical
+
+/*
+declaration-block-properties-order: ["transform", "top", "color"]
+*/
+
+a {
+  color: pink;
+  top: 0;
+} -> Error
+a {
+  top: 0;
+  color: pink;
+} -> True
+```
+
+* `declaration-block-semicolon-newline-after : "always" || "always-multi-line" || "never-multi-line"` - переход на новую строку после символа ';' в объявлении свойства
+```scss
+a {
+  color: pink;
+  top: 0;
+} -> always
+
+a { color: pink; top: 0; } -> always-multi-line
+a {
+  color: pink;
+  top: 0;
+} -> always-multi-line
+
+a {
+  color: pink
+  ; top: 0;
+} -> never-multi-line
+```
+
+* `declaration-block-semicolon-newline-before : "always" || "always-multi-line" || "never-multi-line"` - переход на новую строку перед символом ';' в объявлении свойства
+```scss
+a { color: pink
+; } -> always
+
+a { color: pink; } -> always-multi-line
+a {
+  color: pink
+  ; top: 0;
+} -> always-multi-line
+
+a {
+  color: pink;
+  top: 0;
+} -> never-multi-line
+```
+
+* `declaration-block-semicolon-space-after : "always" || "never" || "always-single-line" || "never-single-line"` - символ пробела после ";"
+```scss
+a { color: pink; top: 0; } -> always || always-single-line
+a { color: pink; } -> never || never-single-line
+
+```
+
+* `declaration-block-semicolon-space-before : "always" || "never" || "always-single-line" || "never-single-line"` - символ пробела до ";"
+```scss
+a { color: pink ; } -> always || always-single-line
+a { color: pink;top: 0; } -> never || never-single-line
+
+```
+
+* `declaration-block-single-line-max-declarations : int` - максимальное кол-во свойств в одноблочном объявлении
+```scss
+/*
+declaration-block-single-line-max-declarations: 1
+*/
+
+a { color: pink; top: 3px; } -> Error
+a { color: pink; } -> True
+```
+
+* `declaration-block-trailing-semicolon : "always" || "never"` - Последний закрывающий символ в блоке свойств
+```scss
+a { background: orange; color: pink; } -> always
+a { color: pink } -> never
+```
