@@ -280,6 +280,260 @@ a { top: 0 } -> true
 * `time-no-imperceptible : "true"` - Запрещает использование времени меньше 100ms
 ```scss
 .foo { animation: 80ms; } -> Error
-.foo { animation: 8s; } -> true
+.foo { animation: 8s; } -> True
 ```
 ---
+
+### Правила для единиц измерения
+
+* `unit-blacklist : ["array", "of", "units"] || "unit"` - запрещает использовать единицы измерения
+```scss
+/*
+unit-blacklist : "em"
+*/
+
+.foo { font-size: 1.5em } -> Error
+```
+
+* `ignoreProperties: { unit: ["property", "/regex/"] }` - Дополняет `unit-blacklist` и разрешает использовать единицы для некоторых свойств
+```scss
+/*
+ignoreProperties: {
+  "px": [ "font-size", "/^border/" ],
+  "vmin": [ "width" ]  
+}
+*/
+
+a { font-size: 13px; } -> True
+a { line-height: 12px; } -> Error
+```
+
+* `unit-case : "lower" || "upper"` - регистр единиц измерения
+```scss
+a { width: 10px } -> lower
+a { width: 10PX } -> upper
+```
+
+* `unit-no-unknown : true` - запрещает использовать единицы измерения не описаные в специкации css
+```scss
+a { width: 100pixels } -> Error
+```
+
+* `ignoreUnits : ["/regex/", "string"]` - Дополняется свойство `unit-no-unknown` разрешая использовать перечисленные свойства
+```scss
+/*
+ignoreUnits: ['custom']
+*/
+
+a { width: 10custom } -> True
+```
+
+* `unit-whitelist : ["array", "of", "units"] || "string"` - разрешает использовать указанные свойства
+```scss
+/*
+unit-whitelist : ["px", "em", "deg"]
+*/
+
+a { width: 100%; } -> Error
+a { height: 100px; } -> True
+```
+
+### Правила для значений свойств
+
+* `value-keyword-case : "lower"|"upper"` - регистр значений
+```scss
+a { display: Block } -> Error
+a { display: block } -> lower
+a { display: BLOCK } -> upper
+```
+
+* `value-no-vendor-prefix : true` - Запрещает использовать вендорные префиксы для значений
+```scss
+a { display: -webkit-flex; } -> Error
+```
+
+### Правила для множественных свойств
+
+* `value-list-comma-newline-after : "always" || "always-multi-line" || "never-multi-line"` - использование перехода на новую строку после запятой
+```scss
+a { background-size: 0,
+      0; } -> always
+
+a { background-size: 0, 0; } -> never-multi-line
+
+// always-multi-line - разрешает использовать синтаксис и из always и из never-multi-line
+```
+
+* `value-list-comma-newline-before : "always" || "always-multi-line" || "never-multi-line"` - использование перехода на новую строку перед запятой
+```scss
+a { background-size: 0
+      , 0; } -> always
+
+a { background-size: 0,0; } -> never-multi-line
+// always-multi-line - разрешает использовать синтаксис и из always и из never-multi-line
+```
+
+* `value-list-comma-space-after : "always" || "never" || "always-single-line" || "never-single-line"` - использование пробела после запятой
+```scss
+a { background-size: 0, 0; } -> always || always-single-line
+
+a { background-size: 0
+      , 0; } -> always || always-single-line || never-single-line
+
+a { background-size: 0,0; } -> never || never-single-line
+
+a { background-size: 0
+      ,0; } -> never || always-single-line || never-single-line
+
+```
+
+* `value-list-comma-space-after : "always" || "never" || "always-single-line" || "never-single-line"` - использование пробела перед запятой
+```scss
+a { background-size: 0 ,0; } -> always || always-single-line
+
+a { background-size: 0 ,
+      0; } -> always || always-single-line || never-single-line
+
+a { background-size: 0,0; } -> never || never-single-line
+
+a { background-size: 0
+      , 0; } -> never || always-single-line || never-single-line
+```
+
+* `value-list-max-empty-lines : int` - возможное кол-во пустых строк
+```scss
+/*
+value-list-max-empty-lines : 0
+*/
+
+a {
+  padding: 10px
+
+    10px
+    10px
+    10px
+} -> Error
+
+a {
+  padding: 10px
+    10px
+    10px
+    10px
+} -> True
+
+a { padding: 10px 10px 10px 10px } -> True
+```
+
+### Правила для кастомных свойств
+
+* `custom-property-empty-line-before : "always" || "never"` - использование пустой строки перед кастомным свойством
+```scss
+a {
+  top: 10px;
+  --foo: pink;
+  --bar: red;
+} -> never
+
+a {
+  top: 10px;
+
+  --foo: pink;
+
+  --bar: red;
+} -> always
+```
+
+* `custom-property-no-outside-root : true` - запрещает использовать кастомные свойства без `:root`
+```scss
+:root { --foo: 1px; } -> true
+:root, a { --foo: 1px; } -> error
+a { --foo: 1px; } -> Error
+```
+
+* `custom-property-pattern : regex|string` - паттерн для имени кастомного свойства
+```scss
+/*
+custom-property-pattern: "foo-.+"
+*/
+
+:root { --boo-bar: 0; } -> Error
+:root { --foo-bar: 0; } -> True
+```
+
+### Правила для короткого описания свойст
+* `shorthand-property-no-redundant-values : true` - запрещает использовать излишние символы в свойствах:
+`margin`
+`padding`
+`border-color`
+`border-radius`
+`border-style`
+`border-width`
+
+```scss
+a { margin: 1px 1px; } -> Error
+a { margin: 1px; } -> True
+```
+
+### Привила для свойтс
+
+* `property-blacklist : ["array", "of", "unprefixed", "properties" or "regex"] || "property" || "/regex/"` - запрещает использовать данные свойства
+
+```scss
+/*
+property-blacklist : [ "text-rendering", "animation", "/^background/" ]
+*/
+
+a { text-rendering: optimizeLegibility; } -> Error
+```
+
+* `property-case : "lower" || "upper"` - регистр названий свойств
+```scss
+a { width: 1px } -> lower
+a { WIDTH: 1px } -> upper
+```
+
+* `property-no-unknown : true` - запрещает использовать свойства которые не указаны в спецификации CSS, но игнорируется переменные ($sass, @less, --custom-property)
+```scss
+a { colr: blue } -> Error
+a { color: blue } -> True
+```
+
+* `property-no-vendor-prefix : true` - запрещает использовать вендорные префиксы в именах свойств
+```scss
+a { -webkit-transform: scale(1); } -> Error
+a { transform: scale(1); } -> True
+```
+
+* `property-whitelist : ["array", "of", "unprefixed", "properties" or "regex"] || "property" || "/regex/"` - разрешает использовать указанные свойства
+```scss
+/*
+property-whitelist: ["display", "animation", "/^background/"]
+*/
+
+a { color: pink; } -> Error
+a { display: block; } -> True
+a { -webkit-animation: my-animation 2s; } -> True
+```
+
+### Правила для keyframe правила
+
+* `keyframe-declaration-no-important : true` - Запрещает использовать `!important` в keyframe
+```scss
+@keyframes important1 {
+  from {
+    margin-top: 50px;
+  }
+  to {
+    margin-top: 100px !important;
+  }
+} -> Error
+
+@keyframes important1 {
+  from {
+    margin-top: 50px;
+  }
+  to {
+    margin-top: 100px;
+  }
+} -> True
+```
