@@ -814,3 +814,208 @@ a { color: pink; } -> True
 a { background: orange; color: pink; } -> always
 a { color: pink } -> never
 ```
+
+### Правила для блоков свойств
+
+* `block-closing-brace-empty-line-before : "always-multi-line" || "never"` - использовать пустую линию перед закрывающим символом `}`
+```scss
+a {
+  color: pink;
+
+} -> always-multi-line
+
+a { color: pink; } -> always-multi-line
+
+a {
+  color: pink;
+} -> never
+```
+
+* `block-closing-brace-newline-after : "always" || "always-single-line" || "never-single-line" || "always-multi-line" || "never-multi-line"` - Переход на новую строку после закрывающего символа `}`
+```scss
+a { color: pink; }
+b { color: red; } -> always
+
+a { color: pink;
+} b { color: red; } -> always-single-line
+
+a { color: pink; }b { color: red; } -> never-single-line
+
+a { color: pink;
+}
+b { color: red; } -> always-multi-line
+
+a { color: pink;
+}b { color: red; } -> never-multi-line
+```
+
+* `block-closing-brace-newline-before : "always" || "always-multi-line" || "never-multi-line"` - Переход на новую строку перед закрывающим символом `}`
+```scss
+a { color: pink;
+} -> always || always-multi-line
+
+a { color: pink; } -> always || never-multi-line
+
+a {
+color: pink;} -> never-multi-line
+```
+
+* `block-closing-brace-space-after : "always" || "never" || "always-single-line" || "never-single-line" || "always-multi-line" || "never-multi-line"` - Пробел после закрывающего символа `}`
+
+* `block-closing-brace-space-before : "always" || "never" || "always-single-line" || "never-single-line" || "always-multi-line" || "never-multi-line"` - Пробел перед закрывающим символом `}`
+
+* `block-no-empty : true` - запрещает использовать пустые блоки
+```scss
+a {} -> Error
+a { color: pink; } -> True
+```
+
+* `block-no-single-line : true` - Запрещает использовать однострочные блоки
+```scss
+a { color: pink; top: 1px; } -> Error
+
+a {
+  color: pink;
+  top: 1px;
+} -> True
+```
+
+* `block-opening-brace-newline-after : "always" || "always-multi-line" || "never-multi-line` - переход на новую линию после открывающего символа `{`
+
+* `block-opening-brace-newline-before : "always" || "always-single-line" || "never-single-line" || "always-multi-line" || "never-multi-line"` - переход на новую линию перед открывающим символом `{`
+
+* `block-opening-brace-space-after : "always" || "never" || "always-single-line" || "never-single-line" || "always-multi-line" || "never-multi-line"` - Пробел после откпосле открывающего символа `{`
+
+* `block-opening-brace-space-before : "always" || "never" || "always-single-line" || "never-single-line" || "always-multi-line" || "never-multi-line"` - Пробел перед открывающим символом `{`
+
+### Правила для селекторов
+
+* `selector-attribute-brackets-space-inside : "always" || "never"` - отступы в селекторе атрибутов
+```scss
+[ target ] {} -> always
+[target] {} -> never
+```
+
+* `selector-attribute-operator-blacklist : ["array", "of", "operators"] || "operator"` - Черный список операторов в атрибутах селекторов
+```scss
+/* selector-attribute-operator-blacklist: [ "*=" ] */
+
+[class*="test"] {} -> Error
+[target="_blank"] {} -> True
+```
+
+* `selector-attribute-operator-space-after : "always" || "never"` - Пробел после оператора в атрибуте селектора
+```scss
+[target= _blank] {} -> always
+[target=_blank] {} -> never
+```
+
+* `selector-attribute-operator-space-before : "always" || "never"` - Пробел перед оператором в атрибуте селектора
+
+* `selector-attribute-operator-whitelist : ["array", "of", "operators"]|"operator"` - Белый список операторов в атрибутах селекторов
+
+* `selector-attribute-quotes : "always" || "never"` - Использование ковычек в атрибутах селекторов
+```scss
+[target="_blank"] {} -> always
+[title=flower] {} -> never
+```
+
+* `selector-class-pattern : regex || string` - Паттерн для классовой нотации
+```scss
+/*
+  selector-class-pattern: "foo-[a-z]+"
+*/
+
+.foo-bar {} -> True
+.foo-BAR {} -> Error
+```
+
+*  `selector-combinator-space-after : "always" || "never"` - Пробел после символа комбинатора(+ > ~)
+```scss
+a> b { color: pink; } -> always
+a>b { color: pink; } -> never
+```
+
+* `selector-combinator-space-before : "always" || "never"` - Пробел перед символом комбинатора(+ > ~)
+
+* `selector-descendant-combinator-no-non-space : true` - Запрещает использовать ненуженое пространоство между классами
+```scss
+.foo .bar {} -> True
+.foo  .bar {} -> Error
+```
+
+* `selector-id-pattern : regex || string` - Паттерн для селектора id
+
+* `selector-max-compound-selectors : int` -  Максимальное кол-во селекторов в запросе
+```scss
+/* selector-max-compound-selectors: 3 */
+
+.foo .bar .baz .lorem {} -> Error
+.foo .baz {
+  & > .bar .lorem {}
+} -> Error
+
+#foo #bar > #baz {} -> True
+```
+
+* `selector-max-specificity : string` - Кол-во максимальных элементов селектора по типу 'id,class,type' указанная в цифрах
+```scss
+/* selector-max-specificity: '0,2,0' */
+
+.foo div {} -> True
+.foo div {
+  & div a {}
+} -> True
+
+.foo .baz .bar {} -> Error
+```
+
+* `selector-nested-pattern : regex || string` - Паттерн для наследуемых свойств
+```scss
+/* selector-nested-pattern: "^&:\(\?:hover\|focus\)$" */
+
+a {
+  .bar {}
+} -> Error
+
+a {
+  &:hover {}
+} -> True
+```
+
+* `selector-no-attribute : true` - Запрещает использовать атрибуты в селекторе
+```scss
+[rel="external"] {} -> Error
+a {} -> True
+```
+
+* `selector-no-combinator : true` - Запрещает использовать комбинаторы в селекторе
+```scss
+a b { color: pink; } -> Error, символ пробела так же является комбинатором
+
+a, b { color: pink; } -> True
+a { color: pink; } -> True
+```
+
+* `selector-no-empty : true` -Запрещает использовать пустые селекторы
+```scss
+a, , b {} -> Error
+{} -> Error
+```
+
+* `selector-no-id : true` - Запрещает использовать id в селекторе
+
+* `selector-no-qualifying-type : true` - Запрещает использовать смешанный селектор
+```scss
+a.foo {
+  margin: 0
+} -> Error
+
+input[type='button'] {
+  margin: 0
+} -> Error
+
+.foo {
+  margin: 0
+} -> True
+```
