@@ -1103,4 +1103,26 @@ a,b { color: pink; } -> never-multi-line
 @media (max-width>=600px) {} -> never
 ```
 
-* `media-feature-range-operator-space-before : "always" || "never"` - Пробел перед оператором диапозона 
+* `media-feature-range-operator-space-before : "always" || "never"` - Пробел перед оператором диапозона
+
+
+### Правила для кастомных медиа запросов
+
+* `custom-media-pattern : regex || string` - Задает паттерн для имени
+```scss
+/* custom-media-pattern: "foo-.+" */
+
+@custom-media --foo-bar (min-width: 30em); -> True
+@custom-media --bar (min-width: 30em); -> False
+```
+
+
+### Правила для списков медиа запросов
+
+* `media-query-list-comma-newline-after : "always" || "always-multi-line" || "never-multi-line"` - Переход на новую строку после запятой в списке медиа запроса
+
+* `media-query-list-comma-newline-before : "always" || "always-multi-line" || "never-multi-line"` - Переход на новую строку перед запятой в списке медиа запроса
+
+* `media-query-list-comma-space-after : "always" || "never" || "always-single-line" || "never-single-line"` - Пробел после запятой в списке медиа запроса
+
+* `media-query-list-comma-space-before : "always" || "never" || "always-single-line" || "never-single-line"` -
