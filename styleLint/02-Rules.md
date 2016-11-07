@@ -1019,3 +1019,88 @@ input[type='button'] {
   margin: 0
 } -> True
 ```
+
+### Правила для списков селекторов
+
+* `selector-list-comma-newline-after : "always" || "always-multi-line" || "never-multi-line"` - Переход на новую строку после запятой в списке селекторов
+```scss
+a,
+b { color: pink; } -> always
+
+a, b { color: pink; } -> always-multi-line
+
+a,b { color: pink; } -> never-multi-line
+```
+
+* `selector-list-comma-newline-before : "always" || "always-multi-line" || "never-multi-line"` - Переход на новую строку перед запятой в списке селекторов
+
+* `selector-list-comma-space-after : "always" || "never" || "always-single-line" || "never-single-line"` - Пробел после запятой в списке селекторов
+
+* `selector-list-comma-space-before : "always" || "never" || "always-single-line" || "never-single-line"` - Пробел перед запятой в списке селекторов
+
+### Правила для наследуемых блоков
+
+* `rule-nested-empty-line-before : "always" || "never" || "always-multi-line" || "never-multi-line"` - Пустая линия перед унаследованным блоком
+```scss
+@media {
+
+  a {}
+} -> always
+
+@media {
+  a {}
+} -> never
+
+@media {
+
+  a {
+    color: pink;
+    top: 0;
+  }
+} -> always-multi-line
+
+@media {
+  a {
+    color: pink;
+    top: 0;
+  }
+} -> never-multi-line
+```
+
+* `rule-non-nested-empty-line-before : "always" || "never" || "always-multi-line" || "never-multi-line"` - Пустая линия для всех блоков
+
+### Правила для media запросов
+
+* `media-feature-colon-space-after : "always" || "never"` - Пробел после символа `:` в медиа запросе
+
+* `media-feature-colon-space-before : "always" || "never"` - Пробел перед символом `:` в медиа запросе
+
+* `media-feature-name-blacklist : ["array", "of", "unprefixed", "media-features" or "regex"] || "media-feature" || /regex/` - Черный список свойств используемых в качестве медиа запросов
+
+* `media-feature-name-whitelist : ["array", "of", "unprefixed", "media-features" or "regex"] || "media-feature" || /regex/` - Белый список свойств используемых в качестве медиа запросов
+
+* `media-feature-name-case : "lower" || "upper"` - Регистр свойст используемых для медиа запросов
+
+* `media-feature-name-no-unknown : true` - Запрещает использовать свойства не из спецификации
+
+* `media-feature-name-no-vendor-prefix : true` - Запрещает использовать вендорные префексы для свойств использующихся в медиа запросах
+
+* `media-feature-no-missing-punctuation : true` - Запрещает пропускать символ между свойством и значением
+```scss
+@media (max-width: 600px) {} -> true
+@media (max-width 600px) {} -> Error
+```
+
+* `media-feature-parentheses-space-inside : "always" || "never"` - Пробелы внутри круглых скобок в медиа запросах
+```scss
+@media ( max-width: 300px ) {} -> always
+@media (max-width: 300px) {} -> never
+```
+
+* `media-feature-range-operator-space-after : "always" || "never"` - Пробел после оператора диапозона
+```scss
+@media (max-width>= 600px) {} -> always
+@media (max-width>=600px) {} -> never
+```
+
+* `media-feature-range-operator-space-before : "always" || "never"` - Пробел перед оператором диапозона 
